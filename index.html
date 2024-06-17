@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="forms-container">
+        <!--Question Forms Here-->
+    </div>
+
+    <div id="controls-container">
+        <button id="back">Back</button>
+        <button id="next">Next</button>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+
+    const questions = [
+        {
+            question: "¿cuál es tu principal preocupación cuando se trata de tu piel?",
+            options: ["empezar a cuidar mi piel", "signos del envejecimiento", "espinillas y brotes", "piel sensible", "otras necesidades"]
+        },
+        {
+            question: "¿tienes alguna de estas necesidades?",
+            options: ["empezar a cuidar mi piel", "reducir las Finas Líneas", "unificar el tono de la piel", "exfoliar", "extra humectación", "minimizar la apariencia de poros", "limpieza profunda de mi piel", "consentir mi piel con un momento relajante"]
+        },
+        {
+            question: "¿cuál es tu rango de edad?",
+            options: ["15-20", "21-24", "25-49", "50 o más"]
+        },
+        {
+            question: "buscas una rutina para",
+            options: ["mujer", "hombre"]
+        },
+        {
+            question: "¿qué tipo de piel tienes?",
+            options: ["normal a seca", "combinada a grasa"]
+        }
+    ]
+
+    const routes = [
+        {
+            route: ["empezar a cuidar mi piel", "15-20", "21-24", "mujer", "normal a seca", "combinada a grasa"],
+            reco: "R1"
+        },
+        {
+            route: ["empezar a cuidar mi piel", "25-49", "mujer", "normal a seca"],
+            reco: "R2"
+        },
+        {
+            route: ["empezar a cuidar mi piel", "25-49", "mujer", "combinada a grasa"],
+            reco: "R3"
+        },
+        {
+            route: ["empezar a cuidar mi piel", "50 o más", "mujer", "normal a seca", "combinada a grasa"],
+            reco: "R4"
+        }
+    ]
+
+    const myChoices = ["1", "1", "1", "1", "1"];
+
+    let index = 0;
+    const nextButton = document.getElementById("next");
+    const backButton = document.getElementById("back");
+
+    const formsContainer = document.getElementById("forms-container");
+
+
+    questions.forEach((e, i) => {
+
+        formsContainer.innerHTML += /*html*/`
+        <form class="q" id="q-${i}" style="display: none">
+            <h1>${e.question}</h1>
+        <form>
+        `;
+
+        e.options.forEach((e2, i2) => {
+
+            const optionElement = document.createElement("div");
+            optionElement.innerHTML = "";
+
+            optionElement.innerHTML = /*html*/`
+            <label for="o-${i}${i2}">${e2}</label>
+            <input class="o" type="radio" name="o-${i}" id="o-${i}${i2}" value="${e2}">
+            `;
+
+            document.getElementById(`q-${i}`).appendChild(optionElement);
+        });
+
+    })
+
+    const getResult = () => {
+
+    };    
+
+    const showForms = () => {
+
+        const q = document.querySelectorAll(".q");
+
+        q.forEach((e) => {
+            e.style.display = "none";
+        });
+
+        q[index].style.display = "block";
+    }
+
+    nextButton.addEventListener("click", () => {
+
+        const o = document.querySelectorAll(".o");
+
+        if (index !== questions.length) {
+            o.forEach((e, i) => {
+                
+            })
+            index++;
+        };
+
+        showForms();
+        lockButtons();
+    });
+
+    backButton.addEventListener("click", () => {
+
+        if (index !== 0) {
+            index--;
+        };
+
+        showForms();
+        lockButtons();
+    });
+
+    const lockButtons = () => {
+
+        if (index < myChoices.length - 1) {
+            nextButton.disabled = false;
+        } else {
+            nextButton.disabled = true;
+        }
+
+        if (index !== 0) {
+            backButton.disabled = false;
+        } else {
+            backButton.disabled = true;
+        }
+    }
+
+    showForms();
+    lockButtons();
+
+    console.log("Choices Length: " + myChoices.length, "index: " + index);
+
+
+
+</script>
+
+<style>
+    #controls-container{
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+</style>
